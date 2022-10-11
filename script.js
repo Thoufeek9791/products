@@ -5,21 +5,34 @@ const formEl = document.querySelector('form');
 
 
 formEl.addEventListener('submit', (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     // console.log(formEl.productsearch.value);
 })
 
 const addIcon = document.querySelector('.fa-circle-plus');
 const removeIcon = document.querySelector('.fa-trash');
+const containerEl = document.querySelector('.container')
 
-addIcon.addEventListener('click', () => {
-    const item = prompt('Enter the Product');
-    const size = prompt('Enter the size');
-    const color = prompt('Enter the Color');
-    const divEl = document.createElement('div');
-    const ulEl = document.createElement('ul')
-    const li
-    divEl.textContent = item;
-    formEl.append(divEl)
-})
+const divEl = document.createElement('div');
+const ulEl = document.createElement('ul');
+
+
+
+
+
+//copy code
+let modal = document.querySelector(".modal");
+let trigger = document.querySelector(".fa-circle-plus");
+let closeButton = document.querySelector(".close-button");
+function toggleModal() {
+  modal.classList.toggle("show-modal");
+}
+function windowOnClick(event) {
+  if(event.target === modal) {
+    toggleModal();
+  }
+}
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
 
