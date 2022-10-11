@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins&family=Roboto:ital,wght@0,700;1,700&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+.icons {
+    display: flex;
+    text-align: right;
+    position: relative;
+    left: 40%;
+    justify-content: space-between;
+    flex-basis: 3rem;
+    align-items: center;
+}
+
+.fa-solid {
+    cursor: pointer;
+}
