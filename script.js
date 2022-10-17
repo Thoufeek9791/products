@@ -1,12 +1,14 @@
 
 
 const formEl = document.querySelector('form');
-// console.log(formEl);
+const addProductFormEL = document.querySelector('.modal-content form');
+console.log(addProductFormEL);
 
 
 formEl.addEventListener('submit', (e) => {
     e.preventDefault(); 
-    // console.log(formEl.productsearch.value);
+    const list = JSON.parse(localStorage.getItem(formEl.productsearch.value));
+    console.log(list);
 })
 
 const addIcon = document.querySelector('.fa-circle-plus');
@@ -32,7 +34,24 @@ function windowOnClick(event) {
     toggleModal();
   }
 }
+
+function handleAddProducts(event) {
+  event.preventDefault();
+  console.log(addProductFormEL.elements);
+  console.log(addProductFormEL.elements[0].value);
+
+  
+
+  localStorage.setItem( addProductFormEL.elements[0].value, 
+    JSON.stringify([addProductFormEL.elements[0].value,
+      addProductFormEL.elements[1].value, addProductFormEL.elements[2].value, addProductFormEL.elements[3].value])
+  );
+
+}
 trigger.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
+
+addProductFormEL.addEventListener('submit', handleAddProducts);
+
 

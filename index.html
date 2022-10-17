@@ -17,7 +17,7 @@
     </header>
     <div class="container">
       <form action="" name="search">
-        <input type="search" name="productsearch" id="products"/ placeholder="Enter Art Number">
+        <input type="search" name="productsearch" id="products" placeholder="Enter Art Number"/>
         <button type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
@@ -29,17 +29,32 @@
     <div class="modal">
       <div class="modal-content">
         <span class="close-button">&times;</span>
-        <label for="artNumber"> Art Number
-          <input type="text" name="aricle" id="artNumber">
-        </label>
+       <form action="">
+        <div class="form-controls">
+          <label for="artNumber"> Art Number
+            <input type="text" name="aricle" id="artNumber">
+          </label>
+        </div>
 
-        <label for="size">Size
-          <input type="text" name="sizes" id="size">
-        </label>
+        <div class="form-controls">
+          <label for="size">Size
+            <input type="text" name="sizes" id="size">
+          </label>
+        </div>
 
-        <label for="colors">Color
-          <input type="text" name="color" id="colors">
-        </label>
+        <div class="form-controls">
+          <label for="colors">Color
+            <input type="text" name="color" id="colors">
+          </label>
+        </div>
+        
+        <div class="form-controls">
+          <label for="MRP"> MRP
+            <input type="text" name="price" id="MRP">
+          </label>
+        </div>
+        <button>add</button>
+       </form>
       </div>
     </div>
 
