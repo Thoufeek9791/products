@@ -1,5 +1,5 @@
 
-
+const productsHeader = ['Art No', 'size', 'color', 'MRP'];
 const formEl = document.querySelector('form');
 const addProductFormEL = document.querySelector('.modal-content form');
 console.log(addProductFormEL);
@@ -8,7 +8,25 @@ console.log(addProductFormEL);
 formEl.addEventListener('submit', (e) => {
     e.preventDefault(); 
     const list = JSON.parse(localStorage.getItem(formEl.productsearch.value));
-    console.log(list);
+    const div = document.createElement('div');
+    const divChild = document.createElement('div');
+    const ul = document.createElement('ul');
+    for(i = 0; i <= 3; i++) {
+      const li = document.createElement('li');
+      li.textContent = productsHeader[i];
+      ul.append(li);
+    }
+    divChild.append(ul);
+    const ulMain = document.createElement('ul');
+    
+    list.forEach(spec => {
+     const liMain = document.createElement('li');
+      liMain.textContent = spec;
+      ulMain.append(liMain);
+    });
+    div.append(divChild)
+    div.append(ulMain);
+    document.body.append(div);
 })
 
 const addIcon = document.querySelector('.fa-circle-plus');
