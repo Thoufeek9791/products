@@ -17,44 +17,100 @@
     </header>
     <div class="container">
       <form action="" name="search">
-        <input type="search" name="productsearch" id="products" placeholder="Enter Art Number"/>
+        <input
+          type="search"
+          name="productsearch"
+          id="products"
+          placeholder="Enter Art Number"
+        />
         <button type="submit">
           <i class="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>
     </div>
 
-    
-
     <div class="modal">
       <div class="modal-content">
         <span class="close-button">&times;</span>
-       <form action="">
-        <div class="form-controls">
-          <label for="artNumber"> Art Number
-            <input type="text" name="aricle" id="artNumber">
-          </label>
-        </div>
+        <form action="">
+          <div class="form-controls">
+            <label for="artNumber"> Art Number </label>
+            <input type="text" name="aricle" id="artNumber" />
+          </div>
 
-        <div class="form-controls">
-          <label for="size">Size
-            <input type="text" name="sizes" id="size">
-          </label>
-        </div>
+          <div class="form-controls sizes">
+            <label for="size">Size</label>
+            <div class="checkbox">
+              <label for="size1">6 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size1"
+                value="6"
+                class="size"
+              />
+              <label for="size2">7 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size2"
+                value="7"
+                class="size"
+              />
+              <label for="size3">8 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size3"
+                value="8"
+                class="size"
+              />
+              <label for="size4">9 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size4"
+                value="9"
+                class="size"
+              />
+              <label for="size5">10 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size5"
+                value="10"
+                class="size"
+              />
+              <label for="size6">11 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size6"
+                value="11"
+                class="size"
+              />
+              <label for="size7">12 </label>
+              <input
+                type="checkbox"
+                name="sizes"
+                id="size7"
+                value="12"
+                class="size"
+              />
+            </div>
+          </div>
 
-        <div class="form-controls">
-          <label for="colors">Color
-            <input type="text" name="color" id="colors">
-          </label>
-        </div>
-        
-        <div class="form-controls">
-          <label for="MRP"> MRP
-            <input type="text" name="price" id="MRP">
-          </label>
-        </div>
-        <button>add</button>
-       </form>
+          <div class="form-controls">
+            <label for="colors">Color </label>
+            <input type="text" name="color" id="colors" />
+          </div>
+
+          <div class="form-controls">
+            <label for="MRP"> MRP </label>
+            <input type="text" name="price" id="MRP" />
+          </div>
+          <button>add</button>
+        </form>
       </div>
     </div>
 
