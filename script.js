@@ -19,29 +19,23 @@ formEl.addEventListener("submit", (e) => {
     isSecondClick = true;
   }
 
-  const list = JSON.parse(localStorage.getItem(formEl.productsearch.value));
+  const list = JSON.parse([localStorage.getItem(formEl.productsearch.value)]);
+  console.log(list);
 
   div.classList.add("products-list");
-  // const divChild = document.createElement("div");
   const ul = document.createElement("ul");
   for (i = 0; i <= 3; i++) {
     const li = document.createElement("li");
     li.textContent = productsHeader[i];
     ul.append(li);
-    // const value = document.createElement('li');
-    // value.textContent = list[i];
-    // ul.append(value)
   }
   div.append(ul);
-  // const ulMain = document.createElement("ul");
 
-  list.forEach((spec) => {
+  for(i = 0; i <= 3; i++) {
     const li = document.createElement("li");
-    li.textContent = spec;
-    ul.append(li);
-  });
-  // // div.append(divChild);
-  // div.append(ulMain);
+    li.textContent = Object.values(list)[i];
+    ul.append(li)
+  }
   document.body.append(div);
 });
 
@@ -80,16 +74,19 @@ function handleAddProducts(event) {
     }
   });
 
-  console.log(checkedValues);
+  
+  const productDetails = {
+    artNo: addProductFormEL.elements[0].value,
+    sizes: checkedValues,
+    color: addProductFormEL.elements[8].value,
+    MRP: addProductFormEL.elements[9].value
+  }
+
+  console.log(...productDetails.color);
 
   localStorage.setItem(
-    addProductFormEL.elements[0].value,
-    JSON.stringify([
-      addProductFormEL.elements[0].value,
-      checkedValues,
-      addProductFormEL.elements[2].value,
-      addProductFormEL.elements[3].value,
-    ])
+    productDetails.artNo,
+    JSON.stringify(productDetails)
   );
 }
 trigger.addEventListener("click", toggleModal);
