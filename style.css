@@ -34,7 +34,7 @@ header {
   position: relative;
   left: 40%;
   justify-content: space-between;
-  flex-basis: 3rem;
+  flex-basis: 5rem;
   align-items: center;
 }
 
@@ -49,6 +49,10 @@ header {
 
 .fa-trash {
   color: #f00;
+}
+
+.fa-cart-shopping {
+  color: #00f;
 }
 
 form button {
@@ -109,7 +113,7 @@ form button {
   display: block;
 }
 
-.modal-content form .checkbox input{
+.modal-content form .checkbox input {
   display: inline-block;
 }
 
@@ -142,4 +146,3 @@ form button {
   list-style-type: none;
   display: inline-block;
 }
-

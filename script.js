@@ -4,18 +4,42 @@ const addProductFormEL = document.querySelector(".modal-content form");
 let isSecondClick = false;
 let divRef = null;
 const checkedValues = [];
+const container = document.getElementsByClassName(".products");
 console.log(addProductFormEL);
 
-const refresh = () => {};
+//This is the closures method of passing arguments to callback function
+const handleCart = (list, items) => {
+  var data = list;
+  var items = items;
+  return () => {
+    // console.log(data);
+     for(i = 0; i < items.length; i++) {
+      if (items[i].checked) {
+        items[i].checked;
+        const products = {
+          artNo: list.artNo,
+          sizes: [].push(items[i].value),
+          color: list.color,
+          MRP: list.MRP
+        }
+        // localStorage.setItem("purchace-product", JSON.stringify(products))
+      }
+    }
+  }
+}
 
 formEl.addEventListener("submit", (e) => {
   e.preventDefault();
   const div = document.createElement("div");
+  const soldContainer = document.createElement("div");
   if (isSecondClick) {
     divRef.remove();
+    soldContainerRef.remove();
     divRef = div;
+    soldContainerRef = soldContainer;
   } else {
     divRef = div;
+    soldContainerRef = soldContainer;
     isSecondClick = true;
   }
 
@@ -31,12 +55,30 @@ formEl.addEventListener("submit", (e) => {
   }
   div.append(ul);
 
-  for(i = 0; i <= 3; i++) {
+  for (i = 0; i <= 3; i++) {
     const li = document.createElement("li");
     li.textContent = Object.values(list)[i];
-    ul.append(li)
+    ul.append(li);
   }
   document.body.append(div);
+
+  let checkBox = null;
+  let checkBoxList = [];
+  for (i = 0; i < list.sizes.length; i++) {
+    const label = document.createElement("label");
+    label.textContent = list.sizes[i];
+    checkBox = document.createElement("input");
+    checkBox.type = "checkbox";
+    checkBox.value = list.sizes[i];
+    soldContainer.append(label, checkBox);
+    checkBoxList.push(checkBox);
+  }
+  const soldButton = document.createElement("button");
+  soldButton.textContent = "Sold";
+  soldContainer.append(soldButton);
+  document.body.append(soldContainer);
+  // const buyItems = [...checkBox.checked.value];
+  soldButton.addEventListener("click", handleCart(list, checkBoxList));
 });
 
 const addIcon = document.querySelector(".fa-circle-plus");
@@ -74,20 +116,16 @@ function handleAddProducts(event) {
     }
   });
 
-  
   const productDetails = {
     artNo: addProductFormEL.elements[0].value,
     sizes: checkedValues,
     color: addProductFormEL.elements[8].value,
-    MRP: addProductFormEL.elements[9].value
-  }
+    MRP: addProductFormEL.elements[9].value,
+  };
 
   console.log(...productDetails.color);
 
-  localStorage.setItem(
-    productDetails.artNo,
-    JSON.stringify(productDetails)
-  );
+  localStorage.setItem(productDetails.artNo, JSON.stringify(productDetails));
 }
 trigger.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
