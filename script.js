@@ -11,22 +11,24 @@ console.log(addProductFormEL);
 const handleCart = (list, items) => {
   var data = list;
   var items = items;
+  const sizeSet = [];
   return () => {
     // console.log(data);
-     for(i = 0; i < items.length; i++) {
+    for (i = 0; i < items.length; i++) {
       if (items[i].checked) {
-        items[i].checked;
-        const products = {
-          artNo: list.artNo,
-          sizes: [].push(items[i].value),
-          color: list.color,
-          MRP: list.MRP
-        }
-        // localStorage.setItem("purchace-product", JSON.stringify(products))
+        sizeSet.push(items[i].value);
       }
     }
-  }
-}
+    const products = {
+      artNo: list.artNo,
+      sizes: sizeSet,
+      color: list.color,
+      MRP: list.MRP,
+    };
+  
+    localStorage.setItem("purchace-product", JSON.stringify([...JSON.parse(localStorage.getItem("purchace-product") || "[]"), products, ]));
+  };
+};
 
 formEl.addEventListener("submit", (e) => {
   e.preventDefault();
