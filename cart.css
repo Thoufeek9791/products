@@ -1,18 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins&family=Roboto:ital,wght@0,700;1,700&display=swap");
 
-
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: "Poppins", sans-serif;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
 }
 
-.products-list {
-    width: 50%;
-    height: 5rem;
-    background-color: aqua;
+.product-list {
+  width: 50%;
+  /* height: 5rem; */
+  background-color: aqua;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  margin-top: 3rem;
+  border-radius: 10px;
+  text-align: center;
 }

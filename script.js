@@ -12,12 +12,25 @@ const handleCart = (list, items) => {
   var data = list;
   var items = items;
   const sizeSet = [];
+  const myStorage = JSON.parse(localStorage.getItem(list.artNo));
   return () => {
     // console.log(data);
     for (i = 0; i < items.length; i++) {
       if (items[i].checked) {
         sizeSet.push(items[i].value);
+        myStorage.sizes.splice(myStorage.sizes.indexOf(items[i].value), 1);
+        console.log(myStorage.sizes);
       }
+
+      localStorage.setItem(
+        list.artNo,
+        JSON.stringify({
+          artNo: list.artNo,
+          sizes: myStorage.sizes,
+          color: list.color,
+          MRP: list.MRP,
+        })
+      );
     }
     const products = {
       artNo: list.artNo,
@@ -25,8 +38,14 @@ const handleCart = (list, items) => {
       color: list.color,
       MRP: list.MRP,
     };
-  
-    localStorage.setItem("purchace-product", JSON.stringify([...JSON.parse(localStorage.getItem("purchace-product") || "[]"), products, ]));
+
+    localStorage.setItem(
+      "purchace-product",
+      JSON.stringify([
+        ...JSON.parse(localStorage.getItem("purchace-product") || "[]"),
+        products,
+      ])
+    );
   };
 };
 
