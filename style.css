@@ -103,6 +103,34 @@ form button {
   transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 }
 
+.drop-down {
+  position: relative;
+}
+
+.dropdown-content {
+  position: absolute;
+  color: #000;
+  right: 10%;
+  top: 3rem;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  /* overflow: auto; */
+  width: 800%;
+  text-align: left;
+  display: none;
+}
+
+.dropdown-content .addItems {
+  padding: 10px;
+}
+
+.dropdown-content .addItems:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+
+
+
 .modal-content form .form-controls {
   padding: 10px;
   display: flex;

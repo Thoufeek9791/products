@@ -105,13 +105,20 @@ formEl.addEventListener("submit", (e) => {
 const addIcon = document.querySelector(".fa-circle-plus");
 const removeIcon = document.querySelector(".fa-trash");
 const containerEl = document.querySelector(".container");
+const dropDown = document.querySelector(".dropdown-content");
+const newItem = document.getElementById("newItem");
+const existingItem = document.getElementById("existingItem");
 
 const divEl = document.createElement("div");
 const ulEl = document.createElement("ul");
 
+addIcon.addEventListener("click", () => {
+  dropDown.style.display = "block";
+});
+
 //copy code
 let modal = document.querySelector(".modal");
-let trigger = document.querySelector(".fa-circle-plus");
+let trigger = document.querySelector("#new-item");
 let closeButton = document.querySelector(".close-button");
 function toggleModal() {
   modal.classList.toggle("show-modal");
