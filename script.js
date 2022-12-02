@@ -4,6 +4,7 @@ const addProductFormEL = document.querySelector(".modal-content form");
 let isSecondClick = false;
 let divRef = null;
 const checkedValues = [];
+let elements = [];
 const container = document.getElementsByClassName(".products");
 console.log(addProductFormEL);
 
@@ -106,14 +107,40 @@ const addIcon = document.querySelector(".fa-circle-plus");
 const removeIcon = document.querySelector(".fa-trash");
 const containerEl = document.querySelector(".container");
 const dropDown = document.querySelector(".dropdown-content");
-const newItem = document.getElementById("newItem");
-const existingItem = document.getElementById("existingItem");
+const newItem = document.getElementById("new-item");
+const existingItem = document.getElementById("existing-item");
+
+//Code for Existing Item
+
+existingItem.addEventListener("click", () => {
+
+  toggleModal();
+  const select = document.createElement('select');
+  for(i = 0; i < addProductFormEL.children.length; i++) {
+    elements[i] = addProductFormEL.children[i];
+    const option = document.createElement('option');
+    option.value = localStorage.getItem(addProductFormEL.artNo)
+    addProductFormEL.replaceChild()
+  }
+});
+
+//code for New Item
+// newItem.addEventListener('click', (e) => {
+//   console.log(e.target);
+// })
 
 const divEl = document.createElement("div");
 const ulEl = document.createElement("ul");
 
 addIcon.addEventListener("click", () => {
   dropDown.style.display = "block";
+});
+existingItem.addEventListener("click", (e) => {
+  const modelContent = document.querySelector(".modal-content");
+  const selectEl = document.createElement("select");
+  const optionEl = document.createElement("option");
+  selectEl.id = "artNo";
+  selectEl.name = "myArt";
 });
 
 //copy code
