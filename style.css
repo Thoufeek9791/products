@@ -112,7 +112,7 @@ form button {
   color: #000;
   right: 10%;
   top: 3rem;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   /* overflow: auto; */
   width: 800%;
   text-align: left;
@@ -127,9 +127,6 @@ form button {
   background-color: #cccccc;
   cursor: pointer;
 }
-
-
-
 
 .modal-content form .form-controls {
   padding: 10px;
@@ -156,7 +153,7 @@ form button {
 
 .products-list {
   background-color: #f7ede2;
-  box-shadow: 10px 10px 0 #fffcf2;
+  box-shadow: 10px 10px  #fffcf2;
   list-style-type: none;
   padding: 20px 40px;
   margin-top: 5rem;
