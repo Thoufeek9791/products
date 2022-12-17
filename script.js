@@ -134,21 +134,12 @@ const addIcon = document.querySelector(".fa-circle-plus");
 const removeIcon = document.querySelector(".fa-trash");
 const containerEl = document.querySelector(".container");
 const dropDown = document.querySelector(".dropdown-content");
-const newItem = document.getElementById("new-item");
+// const newItem = document.getElementById("new-item");
 const existingItem = document.getElementById("existing-item");
 
 //Code for Existing Item
 
-existingItem.addEventListener("click", () => {
-  toggleModal();
-  const select = document.createElement("select");
-  for (i = 0; i < addProductFormEL.children.length; i++) {
-    elements[i] = addProductFormEL.children[i];
-    const option = document.createElement("option");
-    option.value = localStorage.getItem(addProductFormEL.artNo);
-    addProductFormEL.replaceWith(select);
-  }
-});
+existingItem.addEventListener("click", () => {});
 
 //code for New Item
 // newItem.addEventListener('click', (e) => {
@@ -158,29 +149,52 @@ existingItem.addEventListener("click", () => {
 const divEl = document.createElement("div");
 const ulEl = document.createElement("ul");
 
+//Add products drop down code
 addIcon.addEventListener("click", () => {
-  dropDown.style.display = "block";
+  dropDown.classList.toggle("dropdown-content-show");
 });
-existingItem.addEventListener("click", (e) => {
-  const modelContent = document.querySelector(".modal-content");
-  const selectEl = document.createElement("select");
-  const optionEl = document.createElement("option");
-  selectEl.id = "artNo";
-  selectEl.name = "myArt";
-});
+
+//Close the dropdown menu if the user clicks outside of it
+window.onclick = (e) => {
+  if (!e.target.matches(".fa-circle-plus")) {
+    dropDown.classList.remove("dropdown-content-show");
+  }
+};
 
 //copy code
 let modal = document.querySelector(".modal");
-let trigger = document.querySelector("#new-item");
+let existingModal = document.getElementById("existing-modal");
+let newItem = document.querySelector("#new-item");
 let closeButton = document.querySelector(".close-button");
-function toggleModal() {
-  modal.classList.toggle("show-modal");
+function toggleModal(e) {
+  console.log(e.target);
+  if (e.target === existingItem) {
+    const data = JSON.parse(localStorage.getItem("products"));
+    const selectEl = document.getElementById("available-artNo");
+    const divSelect = document.createElement("div");
+    for (i = 0; i < data.length; i++) {
+      const optionEl = document.createElement("option");
+      optionEl.textContent = data[i].artNo;
+      optionEl.value = data[i].artNo;
+      selectEl.append(optionEl);
+    }
+    existingModal.classList.add("show-modal");
+  } else if (e.target === newItem) {
+    modal.classList.toggle("show-modal");
+  }
+
+  else {
+    modal.classList.remove("show-modal")
+    existingModal.classList.remove("show-modal")
+  }
 }
 function windowOnClick(event) {
   if (event.target === modal) {
     toggleModal();
   }
 }
+
+//code for NewItem
 
 function handleAddProducts(event) {
   event.preventDefault();
@@ -218,7 +232,8 @@ function handleAddProducts(event) {
     ])
   );
 }
-trigger.addEventListener("click", toggleModal);
+newItem.addEventListener("click", toggleModal);
+existingItem.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 
