@@ -19,43 +19,48 @@ console.log(addProductFormEL);
 const handleCart = (list, items) => {
   console.log("sold button is clicked");
   var data = list;
+  console.log(data);
   var items = items;
   const addToCart = [];
+  const availableSizes = [];
   const myStorage = JSON.parse(localStorage.getItem("products"));
   console.log(myStorage);
   return () => {
-    // console.log(data);
+    console.log(data);
     for (i = 0; i < items.length; i++) {
       if (items[i].checked) {
-        // addToCart.push(items[i].value);
+        addToCart.push(items[i].value);
         // myStorage.sizes.splice(myStorage.sizes.indexOf(items[i].value), 1);
         // console.log(myStorage.sizes);
+      } else {
+        availableSizes.push(items[i].value);
       }
 
-      localStorage.setItem(
-        list.artNo,
-        JSON.stringify({
-          artNo: list.artNo,
-          sizes: myStorage.sizes,
-          color: list.color,
-          MRP: list.MRP,
-        })
-      );
+      // localStorage.setItem(
+      //   "products",
+      //   JSON.stringify([
+      //     ...JSON.parse(localStorage.getItem("purchace-product") || "[]"),
+      //     products,
+      //   ])
+      // );
     }
-    const products = {
-      artNo: list.artNo,
-      sizes: addToCart,
-      color: list.color,
-      MRP: list.MRP,
-    };
 
-    localStorage.setItem(
-      "purchace-product",
-      JSON.stringify([
-        ...JSON.parse(localStorage.getItem("purchace-product") || "[]"),
-        products,
-      ])
-    );
+    console.log("checked sizes ", addToCart);
+    console.log("Unchecked Sizes: ", availableSizes);
+    // const products = {
+    //   artNo: list.artNo,
+    //   sizes: addToCart,
+    //   color: list.color,
+    //   MRP: list.MRP,
+    // };
+
+    // localStorage.setItem(
+    //   "purchace-product",
+    //   JSON.stringify([
+    //     ...JSON.parse(localStorage.getItem("purchace-product") || "[]"),
+    //     products,
+    //   ])
+    // );
   };
 };
 
@@ -166,26 +171,25 @@ let modal = document.querySelector(".modal");
 let existingModal = document.getElementById("existing-modal");
 let newItem = document.querySelector("#new-item");
 let closeButton = document.querySelector(".close-button");
+let existingCloseBtn = document.querySelector(".existing-close-button");
+console.log(existingCloseBtn);
 function toggleModal(e) {
   console.log(e.target);
   if (e.target === existingItem) {
     const data = JSON.parse(localStorage.getItem("products"));
     const selectEl = document.getElementById("available-artNo");
-    const divSelect = document.createElement("div");
     for (i = 0; i < data.length; i++) {
       const optionEl = document.createElement("option");
       optionEl.textContent = data[i].artNo;
       optionEl.value = data[i].artNo;
       selectEl.append(optionEl);
     }
-    existingModal.classList.add("show-modal");
+    existingModal.classList.toggle("show-modal");
   } else if (e.target === newItem) {
     modal.classList.toggle("show-modal");
-  }
-
-  else {
-    modal.classList.remove("show-modal")
-    existingModal.classList.remove("show-modal")
+  } else {
+    existingModal.classList.remove("show-modal");
+    modal.classList.remove("show-modal");
   }
 }
 function windowOnClick(event) {
@@ -235,6 +239,7 @@ function handleAddProducts(event) {
 newItem.addEventListener("click", toggleModal);
 existingItem.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
+existingCloseBtn.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 
 addProductFormEL.addEventListener("submit", handleAddProducts);
