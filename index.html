@@ -131,11 +131,9 @@
     <div class="modal" id="existing-modal">
       <div class="modal-content">
         <span class="close-button existing-close-button">&times;</span>
-        <form action="" id="product-details">
-          <div class="form-controls">
-            <label for="artNumber"> Art Number </label>
-            <select name="article" id="available-artNo">
-            </select>
+        <form action="" id="existing-products">
+          <div class="form-controls existingItem-select">
+            
           </div>
 
           <div class="form-controls sizes">
@@ -199,12 +197,15 @@
               />
             </div>
           </div>
+          <div class="form-controls">
+            <label for="colors">Color </label>
+            <input type="text" name="color" id="colors" />
+          </div>
           <button>add</button>
         </form>
       </div>
     </div>
 
-    <div class="products" hidden></div>
 
     <script
       src="https://kit.fontawesome.com/3a2330b33b.js"
