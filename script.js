@@ -11,10 +11,6 @@ const addProductFormEL = document.querySelector(".modal-content form");
 let isSecondClick = false;
 let divRef = null;
 
-//To get the checked values of the checkbox
-const checkedValues = [];
-let elements = [];
-
 //Getting the modal
 let modal = document.querySelector(".modal");
 
@@ -187,6 +183,7 @@ window.onclick = (e) => {
 };
 
 //updating Existing Item dropdown
+//TODO : see the working of existing Items
 function updateExistingItem() {
   const selectEl = document.createElement("select");
   const labelEl = document.createElement("label");
@@ -230,49 +227,94 @@ function windowOnClick(e) {
 //Handling New Item added event
 function handleAddProducts(event) {
   event.preventDefault();
-  console.log(addProductFormEL.elements);
+  //To get the checked values of the checkbox
+  const checkedValues = [];
+  //product object
+  let productDetails = null;
   // console.log(addProductFormEL.elements[0].value);
-  console.log(addProductFormEL.elements.sizes);
 
   const sizesList = [...addProductFormEL.elements.sizes];
-  console.log("size list", sizesList);
 
   sizesList.forEach((size) => {
     if (size.checked === true) {
       checkedValues.push(size.value);
     }
-    console.log("checked values", checkedValues);
   });
 
-  const productDetails = {
-    artNo: addProductFormEL.elements[0].value,
-    color_size: [addProductFormEL.elements[8].value, checkedValues],
-    MRP: addProductFormEL.elements[9].value,
-  };
+  const availableProducts = getAvailableProducts("products");
+  // checks whether there is any products available in the storage
+  if (availableProducts) {
+    console.log("calling main if");
+    for (i = 0; i < availableProducts.length; i++) {
+      //checks whether the new item already present in the storage
+      if (availableProducts[i].artNo === addProductFormEL.elements[0].value) {
+        //checks whether the new Item and its color present in the storage
+        if (
+          availableProducts[i].color_size[0].color ===
+          addProductFormEL.elements[8].value
+        ) {
+          console.log("calling color if");
+          alert("product already exists");
+          break;
+        }
+        // if the color is different with same artNo then we have to add the coresponding size set to the color in storage
+         else {
+          console.log("calling color else");
+          console.log(availableProducts);
+          // availableProducts.splice(i, 1);
+          availableProducts[i].color_size.push({
+            color: addProductFormEL.elements[8].value,
+            sizes: checkedValues,
+          });
+          localStorage.removeItem("products");
 
-  //? if there is no products available in the localstorage
-  //TODO: alter and add this code in order to check whether we are adding existing Item in the New Item
-  // try {
-  //   const availableProducts = getAvailableProducts("products");
-  //   availableProducts.forEach((element) => {
-  //     if (
-  //       element.artNo === productDetails.artNo &&
-  //       element.color === productDetails.color
-  //     ) {
-  //       alert("product Already Exists");
-  //     }
-  //   });
-  // } catch (error) {}
-  console.log(...productDetails.color);
+          localStorage.setItem("products", JSON.stringify(availableProducts));
+          break;
+        }
+      }
+    }
 
-  localStorage.setItem(
-    "products",
-    JSON.stringify([
-      ...JSON.parse(localStorage.getItem("products") || "[]"),
-      productDetails,
-    ])
-  );
+    //if no item matches the above condition and ends the for loop without break
+    if (i === availableProducts.length) {
+      console.log("calling end of for");
+      productDetails = {
+        artNo: addProductFormEL.elements[0].value,
+        color_size: [
+          { color: addProductFormEL.elements[8].value, size: checkedValues },
+        ],
+        MRP: addProductFormEL.elements[9].value,
+      };
 
+      localStorage.setItem(
+        "products",
+        JSON.stringify([
+          ...JSON.parse(localStorage.getItem("products") || "[]"),
+          productDetails,
+        ])
+      );
+    }
+  }
+  //if there is no product exists in the localstorage then adding as new item
+   else {
+    console.log("main else");
+    productDetails = {
+      artNo: addProductFormEL.elements[0].value,
+      color_size: [
+        { color: addProductFormEL.elements[8].value, size: checkedValues },
+      ],
+      MRP: addProductFormEL.elements[9].value,
+    };
+
+    localStorage.setItem(
+      "products",
+      JSON.stringify([
+        ...JSON.parse(localStorage.getItem("products") || "[]"),
+        productDetails,
+      ])
+    );
+  }
+
+  addProductFormEL.reset();
   updateExistingItem();
 }
 
