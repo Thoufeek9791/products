@@ -2,7 +2,7 @@
 const productsHeader = ["Art No", "size", "color", "MRP"];
 
 //Getting the product search form
-const formEl = document.querySelector("form");
+const productSearch = document.querySelector(".container form");
 
 // Getting Modal content form
 const addProductFormEL = document.querySelector(".modal-content form");
@@ -46,6 +46,13 @@ let isSecondCall = false;
 
 //division of existing Item element of Existing Item Modal
 const selectDiv = document.querySelector(".existingItem-select");
+
+//color select Element in Existing item
+const selectElColor = document.getElementById("available-colors");
+
+//getting the existing products form
+const existingFormEl = document.getElementById("existing-products");
+console.log(getAvailableProducts("products"));
 
 //  * Getting Available products from the localStorage
 //  ! It returns products list in array format
@@ -104,7 +111,8 @@ const handleCart = (list, items) => {
 };
 
 //submiting the product search form
-formEl.addEventListener("submit", (e) => {
+//TODO: display the available product to the user
+productSearch.addEventListener("submit", (e) => {
   e.preventDefault();
   //adding available products to the div
   const div = document.createElement("div");
@@ -183,34 +191,53 @@ window.onclick = (e) => {
 };
 
 //updating Existing Item dropdown
-//TODO : see the working of existing Items
 function updateExistingItem() {
-  const selectEl = document.createElement("select");
-  const labelEl = document.createElement("label");
-  labelEl.textContent = "ArtNo";
   const data = getAvailableProducts("products");
-  try {
+  if (data) {
+    const selectEl = document.createElement("select");
+    const labelEl = document.createElement("label");
+    const defaultOption = document.createElement("option");
+    const defaultColorOption = document.createElement("option");
+    defaultColorOption.textContent = "--select color--";
+    defaultOption.textContent = "--select Art No--";
+    defaultOption.style.color = "#777";
+    selectEl.append(defaultOption);
+    labelEl.textContent = "ArtNo";
+    //generating available artNo
     for (i = 0; i < data.length; i++) {
       const optionEl = document.createElement("option");
       optionEl.textContent = data[i].artNo;
       optionEl.value = data[i].artNo;
       selectEl.append(optionEl);
     }
-  } catch (error) {
+    selectDiv.replaceChildren(labelEl, selectEl);
+    existingModal.classList.toggle("show-modal");
+    selectEl.addEventListener("change", (e) => {
+      selectElColor.disabled = false;
+      selectElColor.innerHTML = "";
+      selectElColor.append(defaultColorOption);
+      for (i = 0; i < data.length; i++) {
+        if (selectEl.value === data[i].artNo) {
+          for (j = 0; j < data[i].color_size.length; j++) {
+            console.log("inside j loop");
+            const optionEl = document.createElement("option");
+            optionEl.textContent = data[i].color_size[j].color;
+            optionEl.value = data[i].color_size[j].color;
+            selectElColor.append(optionEl);
+          }
+        }
+      }
+    });
+  } else {
     alert("There is No Item in your List");
-    console.log(error.name);
+    existingModal.classList.remove("show-modal");
   }
-  selectDiv.replaceChildren(labelEl, selectEl);
 }
 
-//copy code
+//toggle modal
 function toggleModal(e) {
   if (e.target === existingItem) {
-    if (!isSecondCall) {
-      updateExistingItem();
-      isSecondCall = true;
-    }
-    existingModal.classList.toggle("show-modal");
+    updateExistingItem();
   } else if (e.target === newItem) {
     modal.classList.toggle("show-modal");
   } else {
@@ -218,6 +245,8 @@ function toggleModal(e) {
     modal.classList.remove("show-modal");
   }
 }
+
+//if the user clicks outside the modal the modal should toggle
 function windowOnClick(e) {
   if (e.target === modal || e.target === existingModal) {
     toggleModal();
@@ -258,7 +287,7 @@ function handleAddProducts(event) {
           break;
         }
         // if the color is different with same artNo then we have to add the coresponding size set to the color in storage
-         else {
+        else {
           console.log("calling color else");
           console.log(availableProducts);
           // availableProducts.splice(i, 1);
@@ -295,7 +324,7 @@ function handleAddProducts(event) {
     }
   }
   //if there is no product exists in the localstorage then adding as new item
-   else {
+  else {
     console.log("main else");
     productDetails = {
       artNo: addProductFormEL.elements[0].value,
@@ -315,13 +344,50 @@ function handleAddProducts(event) {
   }
 
   addProductFormEL.reset();
-  updateExistingItem();
+  modal.classList.remove("show-modal");
+  //TODO: Add bootstrap toast when the item is added
+}
+
+//handling the existing Item form Elements
+function handleUpdateProducts(e) {
+  e.preventDefault();
+  const checkedValues = [];
+  console.log(existingFormEl.elements);
+  const artNo = existingFormEl.elements[0].value;
+  const color = existingFormEl.elements[8].value;
+  const sizesList = [...existingFormEl.elements.sizes];
+  sizesList.forEach((size) => {
+    if (size.checked === true) {
+      checkedValues.push(size.value);
+    }
+  });
+
+  const data = getAvailableProducts("products");
+  for (i = 0; i < data.length; i++) {
+    if (artNo === data[i].artNo) {
+      for (j = 0; j < data[i].color_size.length; j++) {
+        if (color === data[i].color_size[j].color) {
+          checkedValues.forEach((element) => {
+            data[i].color_size[j].size.push(element);
+          });
+        }
+      }
+    }
+  }
+
+  localStorage.removeItem("products");
+
+  localStorage.setItem("products", JSON.stringify(data));
+
+  existingFormEl.reset();
+  existingModal.classList.remove("show-modal");
+  // TODO: add product added succesfully toast msg
 }
 
 newItem.addEventListener("click", toggleModal);
 existingItem.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
-// TODO: There is a bug in existing Item close button please fix the bug
 existingCloseBtn.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 addProductFormEL.addEventListener("submit", handleAddProducts);
+existingFormEl.addEventListener("submit", handleUpdateProducts);
