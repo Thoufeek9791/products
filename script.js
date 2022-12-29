@@ -1,5 +1,5 @@
 // Headers for products
-const productsHeader = ["Art No", "size", "color", "MRP"];
+const productsHeader = ["Art No", "color", "size", "MRP"];
 
 //Getting the product search form
 const productSearch = document.querySelector(".container form");
@@ -110,9 +110,9 @@ const handleCart = (list, items) => {
   };
 };
 
-//submiting the product search form
+// * submiting the product search form
 //TODO: display the available product to the user
-productSearch.addEventListener("submit", (e) => {
+function handleProductSearch(e) {
   e.preventDefault();
   //adding available products to the div
   const div = document.createElement("div");
@@ -130,67 +130,83 @@ productSearch.addEventListener("submit", (e) => {
   }
 
   const list = getAvailableProducts("products");
-  console.log("available products in the local storage", list);
-  console.log(list[0].artNo);
-  console.log(formEl.productsearch.value);
 
   for (let i = 0; i < list.length; i++) {
-    console.log("Inside list for loop");
-    if (list[i].artNo === formEl.productsearch.value) {
-      console.log("Inside list if");
-
+    if (list[i].artNo === productSearch.search.value) {
+      //! To convert an object to array
       const listArr = Object.values(list[i]);
-      console.log(listArr[1].length);
+      console.log("object into array: ", listArr);
+      // console.log(listArr[1].length);
       div.classList.add("products-list");
       const ul = document.createElement("ul");
-      for (i = 0; i <= 3; i++) {
+      for (let j = 0; j <= 3; j++) {
         const li = document.createElement("li");
-        li.textContent = productsHeader[i];
+        li.textContent = productsHeader[j];
         ul.append(li);
       }
       div.append(ul);
 
-      for (j = 0; j <= 3; j++) {
-        const li = document.createElement("li");
-        li.textContent = listArr[j];
-        ul.append(li);
+      for (let j = 0; j < listArr.length; j++) {
+        if (listArr[j] === list[i].color_size) {
+          console.log("inside the if color size");
+          for (let k = 0; k < listArr[j].length; k++) {
+            if (listArr[j].length > 1) {
+              const color = document.createElement("li");
+              color.textContent = listArr[j][k].color;
+              ul.insertBefore();
+            }
+            const color = document.createElement("li");
+            console.log(listArr[j][k]);
+            color.style.order = j + 1;
+            color.textContent = listArr[j][k].color;
+            ul.append(color);
+            const size = document.createElement("li");
+            size.style.order = j + 1;
+            size.textContent = listArr[j][k].size;
+            ul.append(size);
+          }
+        } else {
+          const li = document.createElement("li");
+          li.textContent = listArr[j];
+          li.style.order = j + 1;
+          ul.append(li);
+        }
       }
-      document.body.append(div);
-
-      let checkBox = null;
-      let checkBoxList = [];
-      for (j = 0; j < listArr[1].length; j++) {
-        console.log("Inside Checkbox");
-        const label = document.createElement("label");
-        label.textContent = listArr[1][j];
-        checkBox = document.createElement("input");
-        checkBox.type = "checkbox";
-        checkBox.value = listArr[1][j];
-        soldContainer.append(label, checkBox);
-        checkBoxList.push(checkBox);
-      }
-      const soldButton = document.createElement("button");
-      soldButton.textContent = "Sold";
-      soldContainer.append(soldButton);
-      document.body.append(soldContainer);
-      soldButton.addEventListener("click", handleCart(listArr, checkBoxList));
     }
-  }
-});
+    document.body.append(div);
 
-//Add Icon drop down toggle code
+    // let checkBox = null;
+    // let checkBoxList = [];
+    // for (j = 0; j < listArr[1].length; j++) {
+    //   const label = document.createElement("label");
+    //   label.textContent = listArr[1][j];
+    //   checkBox = document.createElement("input");
+    //   checkBox.type = "checkbox";
+    //   checkBox.value = listArr[1][j];
+    //   soldContainer.append(label, checkBox);
+    //   checkBoxList.push(checkBox);
+    // }
+    // const soldButton = document.createElement("button");
+    // soldButton.textContent = "Sold";
+    // soldContainer.append(soldButton);
+    // document.body.append(soldContainer);
+    // soldButton.addEventListener("click", handleCart(listArr, checkBoxList));
+  }
+}
+
+//* Add Icon drop down toggle code
 addIcon.addEventListener("click", () => {
   dropDown.classList.toggle("dropdown-content-show");
 });
 
-//Close the dropdown menu if the user clicks outside of it
+//* Close the dropdown menu if the user clicks outside of it
 window.onclick = (e) => {
   if (!e.target.matches(".fa-circle-plus")) {
     dropDown.classList.remove("dropdown-content-show");
   }
 };
 
-//updating Existing Item dropdown
+//* updating Existing Item dropdown
 function updateExistingItem() {
   const data = getAvailableProducts("products");
   if (data) {
@@ -234,7 +250,7 @@ function updateExistingItem() {
   }
 }
 
-//toggle modal
+//* toggle modal
 function toggleModal(e) {
   if (e.target === existingItem) {
     updateExistingItem();
@@ -246,14 +262,14 @@ function toggleModal(e) {
   }
 }
 
-//if the user clicks outside the modal the modal should toggle
+//* if the user clicks outside the modal the modal should toggle
 function windowOnClick(e) {
   if (e.target === modal || e.target === existingModal) {
     toggleModal();
   }
 }
 
-//Handling New Item added event
+//* Handling New Item added event
 function handleAddProducts(event) {
   event.preventDefault();
   //To get the checked values of the checkbox
@@ -293,7 +309,7 @@ function handleAddProducts(event) {
           // availableProducts.splice(i, 1);
           availableProducts[i].color_size.push({
             color: addProductFormEL.elements[8].value,
-            sizes: checkedValues,
+            size: checkedValues,
           });
           localStorage.removeItem("products");
 
@@ -348,7 +364,7 @@ function handleAddProducts(event) {
   //TODO: Add bootstrap toast when the item is added
 }
 
-//handling the existing Item form Elements
+//* handling the existing Item form Elements
 function handleUpdateProducts(e) {
   e.preventDefault();
   const checkedValues = [];
@@ -384,6 +400,7 @@ function handleUpdateProducts(e) {
   // TODO: add product added succesfully toast msg
 }
 
+//* Event generation
 newItem.addEventListener("click", toggleModal);
 existingItem.addEventListener("click", toggleModal);
 closeButton.addEventListener("click", toggleModal);
@@ -391,3 +408,4 @@ existingCloseBtn.addEventListener("click", toggleModal);
 window.addEventListener("click", windowOnClick);
 addProductFormEL.addEventListener("submit", handleAddProducts);
 existingFormEl.addEventListener("submit", handleUpdateProducts);
+productSearch.addEventListener("submit", handleProductSearch);
